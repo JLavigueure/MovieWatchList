@@ -43,7 +43,7 @@ public class APIController {
 		title = formatTitle(title);
 		//build API url
 		String url = key.getUrl() + APITags.TITLES.tag + APITags.SEARCH.tag + APITags.TITLE.tag +
-				title +"?exact=false&titleType=movie";
+				title +"?exact=false&sort=year.decr&titleType=movie";
 		//build HttpRequest
 		HttpRequest request = buildRequest(url);
 		//Send request and parse results
