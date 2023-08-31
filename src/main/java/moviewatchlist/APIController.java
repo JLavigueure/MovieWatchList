@@ -34,6 +34,7 @@ public class APIController {
 		}
 	}
 	
+	
 	//---Search functions---
 	
 	//Searches by title exactly, returns ArrayList of results
@@ -49,7 +50,7 @@ public class APIController {
 		JsonArray results = getResults(request);
 		return parseResults(results);
 	}
-	
+
 
 	//---Helper Methods---
 	
@@ -70,7 +71,6 @@ public class APIController {
 		JsonObject json = new Gson().fromJson(response.body(), JsonObject.class);
 		return (JsonArray) json.get("results");
 	}
-	
 	
 	//Takes JsonArray of returned values and returns ArrayList of Movie.
 	private ArrayList<Movie> parseResults(JsonArray results){
