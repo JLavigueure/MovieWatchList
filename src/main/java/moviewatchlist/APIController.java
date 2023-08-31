@@ -9,13 +9,17 @@ public class APIController {
 	private APICredentials key;
 	
 	public APIController() {
-		key = getCredentials();
+		key = initCredentials();
 	}
 	
 	
 	
+	
+	
+	
+	
 	//initialize credentials
-	private APICredentials getCredentials() {
+	public APICredentials initCredentials() {
 		try(InputStream in = APICredentials.class.getResourceAsStream("/APIKey.json")){
 			String string = new String(in.readAllBytes(), StandardCharsets.UTF_8);
 			Gson gson = new Gson();

@@ -6,11 +6,17 @@ public class APICredentials {
 	private String host;
 	private String url;
 	
+	//Constructors
 	public APICredentials() {
-		
 	}
 	
-	//Access methods
+	public APICredentials(String key, String host, String url) {
+		this.key = key;
+		this.host = host;
+		this.url = url;
+	}
+	
+	//Accessors
 	public String getKey() {
 		return key;
 	}
@@ -34,6 +40,16 @@ public class APICredentials {
 	
 	public void setUrl(String u) {
 		url = u;
+	}
+	
+	@Override
+	public boolean equals(Object o) {
+		if(o == this) return true;
+		if(!(o instanceof APICredentials)) return false;
+		APICredentials other = (APICredentials) o;
+		return(this.key.equals(other.key) &&
+				this.host.equals(other.host) &&
+				this.url.equals(other.url));
 	}
 	
 }
