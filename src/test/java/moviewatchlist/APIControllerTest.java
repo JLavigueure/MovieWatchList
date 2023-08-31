@@ -11,4 +11,6 @@ public class APIControllerTest{
 				new APIController().initCredentials(), 
 				new APICredentials("TESTKEY", "host.test.com", "https://TESTURL.com/TEST/"));
 	}
+	
+	
 }
