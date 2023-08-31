@@ -30,6 +30,16 @@ public class Movie {
 		return title + " (" + year + ")";
 	}
 	
+	@Override
+	public boolean equals(Object o) {
+		if(o == this) return true;
+		if(!(o instanceof Movie)) return false;
+		Movie other = (Movie) o;
+		return this.id.equals(other.id) &&
+				this.title.equals(other.title) &&
+				this.year == other.year;
+	}
+	
 	//Modifiers
 	public void setId(String id) {
 		this.id = id;
@@ -42,6 +52,7 @@ public class Movie {
 	public void setYear(int year) {
 		this.year = year;
 	}
+	
 	
 
 }
