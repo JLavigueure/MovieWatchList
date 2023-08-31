@@ -1,7 +1,9 @@
 package moviewatchlist;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.InputStream;
+import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
@@ -38,23 +40,27 @@ public class MovieList {
 	
 	//Read and write to file
 	
+	//Returns true if file is empty.
+	public boolean fileIsEmpty() throws Exception {
+		InputStream in = MovieList.class.getResourceAsStream("/movieList.json");
+		String string = new String(in.readAllBytes(), StandardCharsets.UTF_8);
+		if(string.isBlank()) return true;
+		return false;
+	}
+	
 	//Loads movie list from file
-	public boolean loadFromFile() {
-		try(InputStream in = MovieList.class.getResourceAsStream("/MovieList.json")){
-			String string = new String(in.readAllBytes(), StandardCharsets.UTF_8);
-			JsonArray list = (JsonArray) new Gson().fromJson(string, JsonObject.class).get("movies");
-			Gson gson = new Gson();
-			for(JsonElement element : list) {
-				add(gson.fromJson(element, Movie.class));
-			}
-			return true;
-		}catch(Exception e) {
-			return false;
+	public void loadFromFile() throws Exception {
+		InputStream in = MovieList.class.getResourceAsStream("/movieList.json");
+		String string = new String(in.readAllBytes(), StandardCharsets.UTF_8);
+		JsonArray list = (JsonArray) new Gson().fromJson(string, JsonObject.class).get("movies");
+		Gson gson = new Gson();
+		for(JsonElement element : list) {
+			add(gson.fromJson(element, Movie.class));
 		}
 	}
 	
 	//Saves current movie list to file, overwrites all previous data.
-	public boolean saveToFile() {
+	public void saveToFile() throws Exception {
 		//build output in String
 		Gson gson = new Gson();
 		StringBuilder json = new StringBuilder("{\"movies\": [");
@@ -67,12 +73,11 @@ public class MovieList {
 		}
 		json.append("]}");
 		//Write string to file
-		try(FileWriter writer = new FileWriter("MovieList.json")){
-			writer.write(json.toString());
-			return true;
-		}catch(Exception e){
-			return false;
-		}
+		URL url = MovieList.class.getResource("/movieList.json");
+		File f = new File(url.toURI());
+		FileWriter writer = new FileWriter(f);
+		writer.write(json.toString());
+		writer.close();
 		
 	}
 	
