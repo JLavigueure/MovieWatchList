@@ -25,6 +25,11 @@ public class Movie {
 		return year;
 	}
 	
+	@Override
+	public String toString() {
+		return title + " (" + year + ")";
+	}
+	
 	//Modifiers
 	public void setId(String id) {
 		this.id = id;
