@@ -9,6 +9,10 @@ public class MovieRating {
 		this.votes = votes;
 	}
 	
+	public MovieRating() {
+		this(0,0);
+	}
+	
 	public double getRating() {
 		return rating;
 	}
