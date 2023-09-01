@@ -26,7 +26,7 @@ public class UserInterface {
 		}
 		
 		}catch(Exception e) {
-			System.out.println("Fatal error\n" + e.getMessage() + "\n" + e.getStackTrace() + "\n" + e);
+			System.out.println("Fatal error\n" + e.getMessage() + "\n" + e.getStackTrace() + "\n" + e.getLocalizedMessage());
 			System.exit(1);
 		}
 	}
@@ -121,7 +121,7 @@ public class UserInterface {
 		}
 		if(input.equals("0")) return;
 		Movie selectedMovie = results.get(Integer.valueOf(input)-1);
-		movies.add(selectedMovie);
+		movies.add(api.getFullInfo(selectedMovie));
 		System.out.println(selectedMovie + " added to list");
 	}
 	
