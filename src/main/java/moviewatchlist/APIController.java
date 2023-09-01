@@ -51,6 +51,7 @@ public class APIController {
 		return parseResults(results);
 	}
 	
+	//Searches by movie ID string and returns a movie with complete fields
 	public Movie getFullInfo(String id) throws Exception{
 		//build API url
 		String url = key.getUrl() + APITags.TITLES.tag + "/" + id + "?info=base_info";
@@ -63,8 +64,25 @@ public class APIController {
 		return movie;
 	}
 	
+	//Takes movie id string from movie obj and calls getFullInfo
 	public Movie getFullInfo(Movie movie) throws Exception{
 		return getFullInfo(movie.getId());
+	}
+	
+	//Returns Genres object with all possible genres from API
+	public Genres getGenres() throws Exception {
+		String url = key.getUrl() + APITags.TITLES.tag + APITags.UTILS.tag + "/genres";
+		//build request
+		HttpRequest request = buildRequest(url);
+		//send request and parse results
+		JsonArray result = (JsonArray) getResults(request);
+		Genres genres = new Genres(); 
+		for(JsonElement element : result) {
+			if(element.isJsonNull()) continue;
+			genres.add(element.getAsString().toLowerCase());
+		}
+		return genres;
+		
 	}
 
 	//---Helper Methods---
