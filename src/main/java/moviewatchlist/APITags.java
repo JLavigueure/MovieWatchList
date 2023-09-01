@@ -3,7 +3,8 @@ package moviewatchlist;
 public enum APITags {
 	TITLE("/title/"),
 	TITLES("/titles"),
-	SEARCH("/search");
+	SEARCH("/search"),
+	UTILS("/utils");
 	
 	String tag;
 	
