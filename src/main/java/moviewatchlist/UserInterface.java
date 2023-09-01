@@ -33,7 +33,7 @@ public class UserInterface {
 	
 	//prints intro message
 	public void printIntro() {
-		System.out.println("Welcome to MovieWatchList, your rainy day itinerary");
+		System.out.println("Welcome to MovieWatchList, your rainy day itinerary\n");
 	}
 	
 	//checks if previous data exists, and asks user if they would like to load if exists
@@ -43,14 +43,14 @@ public class UserInterface {
 				+ "\nNote: Starting a new list will overwrite this data");
 		System.out.print("Load Data? [Yes][No]");
 		String in = formatInput(scan.nextLine());
-		while(!in.equals("yes") && !in.equals("no")) {
+		while(!in.toLowerCase().equals("yes") && !in.toLowerCase().equals("no")) {
 			System.out.println("Command not recognized");
 			System.out.print("Load Data? [Yes][No]");
 			in = formatInput(scan.nextLine());
 		}
 		if(in.equals("yes")) {
 			movies.loadFromFile();
-			System.out.println("Data successfully loaded.");
+			System.out.println("\nData successfully loaded.");
 		}
 	}
 	
@@ -101,7 +101,9 @@ public class UserInterface {
 	//prompts user for title and searches for movies via api
 	private void query() throws Exception{
 		System.out.println("Enter title");
-		ArrayList<Movie> results = api.searchByTitle(scan.nextLine());
+		String input = scan.nextLine();
+		printProcessing();
+		ArrayList<Movie> results = api.searchByTitle(input);
 		if(results.isEmpty()) {
 			System.out.println("No results found");
 			return;
@@ -113,7 +115,7 @@ public class UserInterface {
 		}
 		System.out.println("\nWhich movie would you like to add? Enter 0 if none.");
 		System.out.print("Index: ");
-		String input = scan.nextLine();
+		input = scan.nextLine();
 		while(!input.matches("[0-9]+") || Integer.valueOf(input) < 0 || Integer.valueOf(input) > index){
 			System.out.println("Index does not exist");
 			System.out.println("Index: ");
@@ -121,8 +123,13 @@ public class UserInterface {
 		}
 		if(input.equals("0")) return;
 		Movie selectedMovie = results.get(Integer.valueOf(input)-1);
+		printProcessing();
 		movies.add(api.getFullInfo(selectedMovie));
 		System.out.println(selectedMovie + " added to list");
+	}
+	
+	private void printProcessing() {
+		System.out.println("\nProcessing...\n");
 	}
 	
 	//saves list and exits program
