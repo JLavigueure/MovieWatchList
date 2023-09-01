@@ -129,10 +129,14 @@ public class APIController {
 	//Adds result data from json object to movie
 	private void parseRatings(JsonObject result, Movie movie) {
 		JsonObject json = (JsonObject) result.get("ratingsSummary");
-		MovieRating rating = new MovieRating(
-				Double.valueOf(json.get("aggregateRating").toString()),
-				Integer.valueOf(json.get("voteCount").toString()));
-		movie.setRatingObj(rating);
+		double rating;
+		if(json.get("aggregateRating") == null) {
+			rating = 0;
+		}else {
+			rating = Double.valueOf(json.get("aggregateRating").toString());
+		}
+		int voteCount = Integer.valueOf(json.get("voteCount").toString());
+		movie.setRatingObj(new MovieRating(rating, voteCount));
 	}
 	
 	//Fixes capitalization and replaces space characters for API use
