@@ -16,13 +16,13 @@ public class UserInterface {
 	
 	public void start() {
 		try {
-		printIntro();
-		checkPreviousData();
-		String in = "";
-		while(!in.equals("3")) {
-			printCmds();
-			in = scan.nextLine();
-			cmdRouter(in);
+			printIntro();
+			checkPreviousData();
+			String in = "";
+			while(!in.equals("3")) {
+				printCmds();
+				in = scan.nextLine();
+				cmdRouter(in);
 		}
 		
 		}catch(Exception e) {
