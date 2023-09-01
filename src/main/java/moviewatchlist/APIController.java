@@ -142,6 +142,7 @@ public class APIController {
 	//Completes all fields in Movie object from api
 	private void parseIdSearchResults(JsonObject result, Movie movie) {
 		parseRatings(result, movie);
+		parseGenres(result, movie);
 	}
 	
 	//Adds result data from json object to movie
@@ -155,6 +156,17 @@ public class APIController {
 		}
 		int voteCount = Integer.valueOf(json.get("voteCount").toString());
 		movie.setRatingObj(new MovieRating(rating, voteCount));
+	}
+	
+	//Adds result data from json object to movie
+	private void parseGenres(JsonObject result, Movie movie) {
+		Genres genres = new Genres();
+		
+		JsonArray jsonArray = result.get("genres").getAsJsonObject().get("genres").getAsJsonArray();
+		for(JsonElement element : jsonArray) {
+			genres.add(element.getAsJsonObject().get("text").getAsString());
+		}
+		movie.setGenresObj(genres);
 	}
 	
 	//Fixes capitalization and replaces space characters for API use

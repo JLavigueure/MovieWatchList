@@ -17,6 +17,14 @@ public class Genres {
 		return genres;
 	}
 	
+	public String[] getArray() {
+		int index = 0;
+		String[] array = new String[genres.size()];
+		for(String genre: genres) 
+			array[index++] = genre;
+		return array;
+	}
+	
 	public boolean contains(String genre) {
 		return genres.contains(genre.toLowerCase());
 	}

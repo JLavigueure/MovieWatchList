@@ -5,6 +5,7 @@ public class Movie {
 	private String title;
 	private int year;
 	private MovieRating rating;
+	private Genres genres;
 	
 	//Constructors
 	public Movie(String id, String title, int year) {
@@ -33,6 +34,10 @@ public class Movie {
 	
 	public double getRating() {
 		return rating.getRating();
+	}
+	
+	public String[] getGenres(){
+		return genres.getArray();
 	}
 	
 	@Override
@@ -71,6 +76,9 @@ public class Movie {
 		this.rating = rating;
 	}
 	
+	public void setGenresObj(Genres genres) {
+		this.genres = genres;
+	}
 	
 
 }

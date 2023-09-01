@@ -56,15 +56,25 @@ public class MovieList {
 		Gson gson = new Gson();
 		for(JsonElement element : list) {
 			JsonObject movieObj = (JsonObject) element;
+			
 			//load ratings
 			JsonObject ratingsObj = movieObj.get("rating").getAsJsonObject();
 			MovieRating rating = 
 					new MovieRating(ratingsObj.get("rating").getAsDouble(), ratingsObj.get("votes").getAsInt());
+			
+			//load genres
+			JsonArray genresObj = movieObj.get("genres").getAsJsonObject().get("genres").getAsJsonArray();
+			Genres genres = new Genres();
+			for(JsonElement genre : genresObj) {
+				genres.add(genre.getAsString());
+			}
+			
 			//load id, title, year and init movie object
 			Movie movie = gson.fromJson(element, Movie.class);
 			
 			//save all loaded info to movie object
 			movie.setRatingObj(rating);
+			movie.setGenresObj(genres);
 			//add movie to list
 			add(movie);
 		}
