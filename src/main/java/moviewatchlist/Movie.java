@@ -6,6 +6,8 @@ public class Movie {
 	private int year;
 	private MovieRating rating;
 	private Genres genres;
+	private String plot;
+	
 	
 	//Constructors
 	public Movie(String id, String title, int year) {
@@ -13,6 +15,7 @@ public class Movie {
 		this.title = title;
 		this.year = year;
 		this.rating = new MovieRating();
+		plot = "";
 	}
 
 	//Accessors
@@ -38,6 +41,10 @@ public class Movie {
 	
 	public String[] getGenres(){
 		return genres.getArray();
+	}
+	
+	public String getPlot() {
+		return plot;
 	}
 	
 	@Override
@@ -80,5 +87,7 @@ public class Movie {
 		this.genres = genres;
 	}
 	
-
+	public void setPlot(String plot) {
+		this.plot = plot;
+	}
 }

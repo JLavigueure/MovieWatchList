@@ -143,6 +143,7 @@ public class APIController {
 	private void parseIdSearchResults(JsonObject result, Movie movie) {
 		parseRatings(result, movie);
 		parseGenres(result, movie);
+		parsePlot(result, movie);
 	}
 	
 	//Adds result data from json object to movie
@@ -167,6 +168,13 @@ public class APIController {
 			genres.add(element.getAsJsonObject().get("text").getAsString());
 		}
 		movie.setGenresObj(genres);
+	}
+	
+	private void parsePlot(JsonObject result, Movie movie) {
+		JsonObject plotObj = result.get("plot").getAsJsonObject().get("plotText").getAsJsonObject();
+		if(plotObj.isJsonNull()) return;
+		String plotText = plotObj.get("plainText").getAsString();
+		movie.setPlot(plotText);
 	}
 	
 	//Fixes capitalization and replaces space characters for API use
