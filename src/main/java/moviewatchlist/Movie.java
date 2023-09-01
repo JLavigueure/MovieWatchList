@@ -63,6 +63,10 @@ public class Movie {
 		this.year = year;
 	}
 	
+	public void setRatingObj(MovieRating rating) {
+		this.rating = rating;
+	}
+	
 	
 
 }
