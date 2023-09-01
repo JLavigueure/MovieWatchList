@@ -40,6 +40,10 @@ public class Movie {
 		return title + " (" + year + ")";
 	}
 	
+	public String toStringWithRating() {
+		return toString() +" - " + rating.getRating() +", " + rating.getVotes() + " votes";
+	}
+	
 	@Override
 	public boolean equals(Object o) {
 		if(o == this) return true;

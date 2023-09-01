@@ -98,6 +98,17 @@ public class UserInterface {
 		}
 	}
 	
+	//prints current list of movies with rating data
+	private void printMoviesWithRatings() {
+		if(movies.getMovies().isEmpty()) {
+			System.out.println("Your list is empty.");
+			return;
+		}
+		for(Movie m: movies.getMovies()) {
+			System.out.println(m.toStringWithRating());
+		}
+	}
+	
 	//prompts user for title and searches for movies via api
 	private void query() throws Exception{
 		System.out.println("Enter title");
