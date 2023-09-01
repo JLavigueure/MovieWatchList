@@ -130,7 +130,7 @@ public class APIController {
 	private void parseRatings(JsonObject result, Movie movie) {
 		JsonObject json = (JsonObject) result.get("ratingsSummary");
 		double rating;
-		if(json.get("aggregateRating") == null) {
+		if(json.get("aggregateRating").isJsonNull()) {
 			rating = 0;
 		}else {
 			rating = Double.valueOf(json.get("aggregateRating").toString());
