@@ -21,6 +21,11 @@ public class MovieRating {
 		return votes;
 	}
 	
+	@Override
+	public String toString() {
+		return rating + ", " + votes;
+	}
+	
 	public void setRating(double rate) {
 		this.rating = rate;
 	}
