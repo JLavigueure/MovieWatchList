@@ -47,10 +47,25 @@ public class APIController {
 		//build HttpRequest
 		HttpRequest request = buildRequest(url);
 		//Send request and parse results
-		JsonArray results = getResults(request);
+		JsonArray results = (JsonArray) getResults(request);
 		return parseResults(results);
 	}
-
+	
+	public Movie getFullInfo(String id) throws Exception{
+		//build API url
+		String url = key.getUrl() + APITags.TITLES.tag + "/" + id + "?info=base_info";
+		//build HttpRequest
+		HttpRequest request = buildRequest(url);
+		//send request and parse results
+		JsonObject result = (JsonObject) getResults(request);
+		Movie movie = initMovieFromJson(result);
+		parseIdSearchResults(result, movie);
+		return movie;
+	}
+	
+	public Movie getFullInfo(Movie movie) throws Exception{
+		return getFullInfo(movie.getId());
+	}
 
 	//---Helper Methods---
 	
@@ -65,11 +80,11 @@ public class APIController {
 	}
 	
 	//Sends HTTP request and returns JsonArray of the APIs results
-	private JsonArray getResults(HttpRequest request) throws Exception{
+	private JsonElement getResults(HttpRequest request) throws Exception{
 		HttpResponse<String> response = 
 				HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
 		JsonObject json = new Gson().fromJson(response.body(), JsonObject.class);
-		return (JsonArray) json.get("results");
+		return json.get("results");
 	}
 	
 	//Takes JsonArray of returned values and returns ArrayList of Movie.
@@ -82,25 +97,42 @@ public class APIController {
 		for(JsonElement element: results) {
 			//convert each element to object
 			JsonObject result = (JsonObject) element.getAsJsonObject();
-			
-			//get id
-			String id = result.get("id").getAsString();
-			//get name
-			JsonObject titleText = (JsonObject) result.get("titleText");
-			String name = titleText.get("text").getAsString();
-			//get year
-			int year;
-			if(!(result.get("releaseYear") instanceof JsonNull)) {
-				JsonObject releaseYear = (JsonObject) result.get("releaseYear");
-				year = Integer.valueOf(releaseYear.get("year").getAsString());
-			} else {
-				year = 0; //no year available
-			}
-			
-			//add movie to list
-			movies.add(new Movie(id, name, year));
+			//init movie from Json Object and add movie to list
+			movies.add( initMovieFromJson(result));
 		}
 		return movies;
+	}
+	
+	//Takes a json object from api and returns movie with id, name, year
+	private Movie initMovieFromJson(JsonObject result) {
+		//get id
+		String id = result.get("id").getAsString();
+		//get name
+		JsonObject titleText = (JsonObject) result.get("titleText");
+		String name = titleText.get("text").getAsString();
+		//get year
+		int year;
+		if(!(result.get("releaseYear") instanceof JsonNull)) {
+			JsonObject releaseYear = (JsonObject) result.get("releaseYear");
+			year = Integer.valueOf(releaseYear.get("year").getAsString());
+		} else {
+			year = 0; //no year available
+		}
+		return new Movie(id, name, year);
+	}
+	
+	//Completes all fields in Movie object from api
+	private void parseIdSearchResults(JsonObject result, Movie movie) {
+		parseRatings(result, movie);
+	}
+	
+	//Adds result data from json object to movie
+	private void parseRatings(JsonObject result, Movie movie) {
+		JsonObject json = (JsonObject) result.get("ratingsSummary");
+		MovieRating rating = new MovieRating(
+				Double.valueOf(json.get("aggregateRating").toString()),
+				Integer.valueOf(json.get("voteCount").toString()));
+		movie.setRatingObj(rating);
 	}
 	
 	//Fixes capitalization and replaces space characters for API use
