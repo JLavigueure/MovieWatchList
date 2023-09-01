@@ -4,12 +4,14 @@ public class Movie {
 	private String id;
 	private String title;
 	private int year;
+	private MovieRating rating;
 	
 	//Constructors
 	public Movie(String id, String title, int year) {
 		this.id = id;
 		this.title = title;
 		this.year = year;
+		this.rating = new MovieRating();
 	}
 
 	//Accessors
@@ -23,6 +25,14 @@ public class Movie {
 
 	public int getYear() {
 		return year;
+	}
+	
+	public MovieRating getRatingObj() {
+		return rating;
+	}
+	
+	public double getRating() {
+		return rating.getRating();
 	}
 	
 	@Override
