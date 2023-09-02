@@ -62,14 +62,15 @@ public class UserInterface {
 		cmds.append("[2] Search list\n");
 		cmds.append("[3] Get movie info\n");
 		cmds.append("[4] Add Movie\n");
-		cmds.append("[5] Save and exit\n");
+		cmds.append("[5] Remove movie\n");
+		cmds.append("[6] Save and exit\n");
 		System.out.println(cmds);
 	}
 	
 	//takes user input and processes accordingly
 	private void cmdRouter(String input) throws Exception{
 		if(input.equals("")) return;
-		if(!input.matches("[1-5]")) {
+		if(!input.matches("[1-6]")) {
 			System.out.println("Command not recognized.");
 			return;
 		}
@@ -102,7 +103,10 @@ public class UserInterface {
 			case 4:
 				query();
 				break;
-			case 5:
+			case 5: 
+				removeMovie();
+				break;	
+			case 6:
 				saveAndExit();	
 		}
 	}
@@ -123,18 +127,7 @@ public class UserInterface {
 		}
 	}
 	
-	//prints current list of movies with rating data
-	private void printMoviesWithRatings() {
-		if(movies.getMovies().isEmpty()) {
-			System.out.println("Your list is empty.");
-			return;
-		}
-		for(Movie m: movies.getMovies()) {
-			System.out.println(m.toStringWithRating());
-		}
-	}
-	
-	//searches movie by keyword
+	//searches list by keyword
 	private void searchByKeyword() {
 		System.out.println("\nEnter keyword");
 		String keyword = scan.nextLine();
@@ -147,18 +140,7 @@ public class UserInterface {
 			System.out.println(m);
 		}
 	}
-	
-	private void getMovieInfo() {
-		System.out.println("Enter movie title");
-		String title = scan.nextLine();
-		Movie movie = movies.getMovie(title);
-		if(movie == null) {
-			System.out.println("Movie not found");
-			return;
-		}
-		System.out.println(movie.getFullInfo());
-	}
-	
+	//searches list year
 	private void searchByYear() {
 		System.out.println("Enter beginning year");
 		String start = scan.nextLine();
@@ -178,7 +160,7 @@ public class UserInterface {
 			System.out.println(m);
 		
 	}
-	
+	//search list by genre
 	private void searchByGenre() {
 		System.out.println("Enter genre");
 		String genre = scan.nextLine();
@@ -188,7 +170,19 @@ public class UserInterface {
 			System.out.println(m);
 	}
 	
-	//prompts user for title and searches for movies via api
+	//get full movie details
+	private void getMovieInfo() {
+		System.out.println("Enter movie title");
+		String title = scan.nextLine();
+		Movie movie = movies.getMovie(title);
+		if(movie == null) {
+			System.out.println("Movie not found");
+			return;
+		}
+		System.out.println(movie.getFullInfo());
+	}
+	
+	//prompts user for title and searches for movies via api, then adds selected movie
 	private void query() throws Exception{
 		System.out.println("Enter title");
 		String input = scan.nextLine();
@@ -218,6 +212,18 @@ public class UserInterface {
 		System.out.println(selectedMovie + " added to list");
 	}
 	
+	//prompts user for title and removes given title
+	private void removeMovie() {
+		System.out.println("Enter title to remove");
+		String in = scan.nextLine();
+		if(movies.remove(in)) {
+			System.out.println(in + " succesfully removed");
+			return;
+		}
+		System.out.println(in + " not found");
+	}
+	
+	//prints processing statement
 	private void printProcessing() {
 		System.out.println("\nProcessing...\n");
 	}

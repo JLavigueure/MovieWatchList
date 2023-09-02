@@ -66,6 +66,16 @@ public class MovieList {
 		movies.add(movie);
 	}
 	
+	//removes object with given title, returns true if removed, returns false if not found
+	public boolean remove(String title) {
+		for(Movie m : movies) {
+			if(m.getTitle().toLowerCase().equals(title.toLowerCase())) {
+				movies.remove(m);
+				return true;
+			}
+		}
+		return false;
+	}
 	
 	//Read and write to file
 	
