@@ -172,14 +172,36 @@ public class UserInterface {
 	
 	//get full movie details
 	private void getMovieInfo() {
+		//get title
 		System.out.println("Enter movie title");
 		String title = scan.nextLine();
 		Movie movie = movies.getMovie(title);
-		if(movie == null) {
-			System.out.println("Movie not found");
+		//if match found, print result
+		if(movie != null) {
+			System.out.println(movie.getFullInfo());
 			return;
 		}
-		System.out.println(movie.getFullInfo());
+		//if no match found, search by keyword
+		ArrayList<Movie> list = movies.searchByKeyword(title);
+		//if no keyword matches found, return
+		if(list.isEmpty()) {
+			System.out.println(title + " not found");
+			return;
+		}
+		//print list found, and ask for selection
+		int index = 1;
+		for(Movie m : list) {
+			System.out.println("[" + index++ + "] " + m);
+		}
+		System.out.println("Select a movie. Enter 0 to return.");
+		String input = scan.nextLine();
+		while(!input.matches("[0-9]+") || Integer.valueOf(input) >= index || Integer.valueOf(input) < 0) {
+			System.out.println("Please enter the number that cooresponds to the movie you would like details for. Enter 0 to return.");
+			input = scan.nextLine();
+		}
+		//print details of selected movie or return if 0 is entered
+		if(input.equals("0")) return;
+		System.out.println(list.get(Integer.valueOf(input)-1).getFullInfo());
 	}
 	
 	//prompts user for title and searches for movies via api, then adds selected movie

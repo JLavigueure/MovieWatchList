@@ -77,6 +77,12 @@ public class MovieList {
 		return false;
 	}
 	
+	
+	//removes movie object
+	public boolean remove(Movie m) {
+		return movies.remove(m);
+	}
+	
 	//Read and write to file
 	
 	//Returns true if file is empty.
