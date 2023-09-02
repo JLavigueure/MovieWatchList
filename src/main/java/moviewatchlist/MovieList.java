@@ -83,10 +83,7 @@ public class MovieList {
 			for(JsonElement genre : genresObj) {
 				genres.add(genre.getAsString());
 			}
-			
-			//load plot
-			String plot = movieObj.get("plot").getAsString();
-			
+						
 			//load id, title, year and init movie object
 			Movie movie = gson.fromJson(element, Movie.class);
 			
