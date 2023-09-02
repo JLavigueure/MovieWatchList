@@ -1,0 +1,45 @@
+- removeMovie now returns a list of movies if no exact match found
+- getMovieInfo now returns a list of movies if no exact match found
+- added ability to remove movie from list
+- added ability to filter list by year and genre
+- removed redundant code loading plot from save file
+- enabled searching list by title and printing full details of movies
+- added ability to search list by keyword
+- added ability to load and save movie plot
+- Added Genres field to movies and ability to save and load genres to MovieList.json
+- fixed indentation
+- Created genres class and added ability to retrieve all possible genres in api controller
+- added utils tag
+- added print movie list with ratings methods
+- fixed failing to load MovieRatings objects from previous saved files
+- fixed crashing when null values encountered during parseing ratings
+- added override toString method
+- added check for 0 ratings when parseing through json
+- fixed spacing, added processing print statement
+- Calls getFullInfo (completes all fields) for selected movies now
+- Added api call for detailed movie info, now parses for ratings
+- added ability to set MovieRating object in Movie class
+- Added MovieRating field & getRating methods to class
+- added default constructor
+- Created Moving rating class
+- Updated title search to return results ordered by year
+- created program main method
+- Created text UI
+- Fixed saveToFile() method to save in correct spot
+- added ability to save and load MovieList in MovieList.json
+- Created MovieList class
+- created tests for equals method
+- Created MovieTest
+- fixed spacing
+- override equals method
+- Added input title formatting method tests
+- Added ability to query API by title and methods to format input titles
+- Override default toString
+- Created basic movie class
+- corrected typo
+- Created enum class of strings used to build API request URLs
+- created simple Movie class
+- Updated formmating and documentation
+- Created APICredentials class and test case for init credentials
+- Added seperate APICredentials class and APIKey.json in resources to pull credentials from
+- init commit
