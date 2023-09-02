@@ -47,6 +47,20 @@ public class MovieList {
 		return null;
 	}
 	
+	public MovieList filterListByYear(int start, int end) {
+		MovieList out = new MovieList();
+		for(Movie m:movies) 
+			if(m.getYear() > start && m.getYear() < end) out.add(m);
+		return out;
+	}
+
+	public MovieList filterListByGenre(String genre) {
+		MovieList out = new MovieList();
+		for(Movie m : movies) 
+			if(m.getGenresObj().contains(genre)) out.add(m);
+		return out;
+	}
+	
 	//Modifiers
 	public void add(Movie movie) {
 		movies.add(movie);

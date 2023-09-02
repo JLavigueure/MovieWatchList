@@ -67,6 +67,10 @@ public class Movie {
 		return string.toString();
 	}
 	
+	public Genres getGenresObj() {
+		return genres;
+	}
+	
 	public String getPlot() {
 		return plot;
 	}

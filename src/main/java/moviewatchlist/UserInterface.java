@@ -68,6 +68,7 @@ public class UserInterface {
 	
 	//takes user input and processes accordingly
 	private void cmdRouter(String input) throws Exception{
+		if(input.equals("")) return;
 		if(!input.matches("[1-5]")) {
 			System.out.println("Command not recognized.");
 			return;
@@ -77,7 +78,23 @@ public class UserInterface {
 				printMovies();
 				break;
 			case 2:
-				searchByKeyword();
+				System.out.println("[1] Search by keyword \n[2] Search by year \n[3] Search by genre");
+				String in = scan.nextLine();
+				if(!in.matches("[1-3]")) {
+					System.out.println("Command not recognized");
+					break;
+				}
+				switch(Integer.valueOf(in)){
+					case 1: 
+						searchByKeyword();
+						break;
+					case 2:
+						searchByYear();
+						break;	
+					case 3:
+						searchByGenre();
+						break;
+				}
 				break;
 			case 3: 
 				getMovieInfo();
@@ -140,6 +157,35 @@ public class UserInterface {
 			return;
 		}
 		System.out.println(movie.getFullInfo());
+	}
+	
+	private void searchByYear() {
+		System.out.println("Enter beginning year");
+		String start = scan.nextLine();
+		while(!start.matches("[1-2][0-9][0-9][0-9]")) {
+			System.out.println("Please enter a valid year");
+			start = scan.nextLine();
+		}
+		System.out.println("Enter ending year");
+		String end = scan.nextLine();
+		while(!end.matches("[1-2][0-9][0-9][0-9]")) {
+			System.out.println("Please enter a valid year");
+			end = scan.nextLine();
+		}
+		System.out.println();
+		MovieList filtered = movies.filterListByYear(Integer.valueOf(start), Integer.valueOf(end));
+		for(Movie m : filtered.getMovies()) 
+			System.out.println(m);
+		
+	}
+	
+	private void searchByGenre() {
+		System.out.println("Enter genre");
+		String genre = scan.nextLine();
+		System.out.println();
+		MovieList filtered = movies.filterListByGenre(genre);
+		for(Movie m: filtered.getMovies()) 
+			System.out.println(m);
 	}
 	
 	//prompts user for title and searches for movies via api

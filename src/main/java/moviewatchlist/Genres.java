@@ -12,8 +12,14 @@ public class Genres {
 	public void add(String s) {
 		genres.add(s);
 	}
+
+	public boolean contains(String genre) {
+		for(String s : genres) 
+			if(s.toLowerCase().equals(genre.toLowerCase())) return true;
+		return false;
+	}
 	
-	public ArrayList<String> get() {
+ 	public ArrayList<String> get() {
 		return genres;
 	}
 	
@@ -25,7 +31,4 @@ public class Genres {
 		return array;
 	}
 	
-	public boolean contains(String genre) {
-		return genres.contains(genre.toLowerCase());
-	}
 }
