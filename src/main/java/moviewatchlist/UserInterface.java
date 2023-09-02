@@ -80,7 +80,8 @@ public class UserInterface {
 				searchByKeyword();
 				break;
 			case 3: 
-				
+				getMovieInfo();
+				break;
 			case 4:
 				query();
 				break;
@@ -128,6 +129,17 @@ public class UserInterface {
 		for(Movie m : list) {
 			System.out.println(m);
 		}
+	}
+	
+	private void getMovieInfo() {
+		System.out.println("Enter movie title");
+		String title = scan.nextLine();
+		Movie movie = movies.getMovie(title);
+		if(movie == null) {
+			System.out.println("Movie not found");
+			return;
+		}
+		System.out.println(movie.getFullInfo());
 	}
 	
 	//prompts user for title and searches for movies via api

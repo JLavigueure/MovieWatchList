@@ -40,6 +40,13 @@ public class MovieList {
 		return out;
 	}
 	
+	public Movie getMovie(String title) {
+		for(Movie movie : movies) {
+			if(movie.getTitle().toLowerCase().equals(title.toLowerCase())) return movie;
+		}
+		return null;
+	}
+	
 	//Modifiers
 	public void add(Movie movie) {
 		movies.add(movie);

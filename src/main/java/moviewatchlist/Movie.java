@@ -27,6 +27,15 @@ public class Movie {
 		return title;
 	}
 
+	public String getFullInfo() {
+		String lineBreak = "\n";
+		return (toString() + lineBreak
+				+ getGenresToString() + lineBreak
+				+ getRatingToString() + lineBreak
+				+ getPlot());
+		
+	}
+	
 	public int getYear() {
 		return year;
 	}
@@ -39,8 +48,23 @@ public class Movie {
 		return rating.getRating();
 	}
 	
+	public String getRatingToString() {
+		return "Rating: " + rating.getRating() + "/10 - " + rating.getVotes() + " votes";
+	}
+	
 	public String[] getGenres(){
 		return genres.getArray();
+	}
+	
+	public String getGenresToString() {
+		String[] genres = getGenres();
+		StringBuilder string = new StringBuilder("");
+		string.append(genres[0]);
+		for(int i = 1; i < genres.length; i++) {
+			string.append(", ");
+			string.append(genres[i]);
+		}
+		return string.toString();
 	}
 	
 	public String getPlot() {
@@ -53,7 +77,7 @@ public class Movie {
 	}
 	
 	public String toStringWithRating() {
-		return toString() +" - " + rating.getRating() +", " + rating.getVotes() + " votes";
+		return toString() +"\nRating: " + rating.getRating() + "/10 - " + rating.getVotes() + " votes";
 	}
 	
 	@Override
