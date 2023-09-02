@@ -19,7 +19,7 @@ public class UserInterface {
 			printIntro();
 			checkPreviousData();
 			String in = "";
-			while(!in.equals("3")) {
+			while(true) {
 				printCmds();
 				in = scan.nextLine();
 				cmdRouter(in);
@@ -58,15 +58,17 @@ public class UserInterface {
 	private void printCmds() {
 		StringBuilder cmds = new StringBuilder();
 		cmds.append("\nEnter a number:\n");
-		cmds.append("[1] Print list \n");
-		cmds.append("[2] Search Movies\n");
-		cmds.append("[3] Save and exit\n");
+		cmds.append("[1] Print list\n");
+		cmds.append("[2] Search list\n");
+		cmds.append("[3] Get movie info\n");
+		cmds.append("[4] Add Movie\n");
+		cmds.append("[5] Save and exit\n");
 		System.out.println(cmds);
 	}
 	
 	//takes user input and processes accordingly
 	private void cmdRouter(String input) throws Exception{
-		if(!input.matches("[1-3]")) {
+		if(!input.matches("[1-5]")) {
 			System.out.println("Command not recognized.");
 			return;
 		}
@@ -75,9 +77,14 @@ public class UserInterface {
 				printMovies();
 				break;
 			case 2:
+				searchByKeyword();
+				break;
+			case 3: 
+				
+			case 4:
 				query();
 				break;
-			case 3:
+			case 5:
 				saveAndExit();	
 		}
 	}
@@ -106,6 +113,20 @@ public class UserInterface {
 		}
 		for(Movie m: movies.getMovies()) {
 			System.out.println(m.toStringWithRating());
+		}
+	}
+	
+	//searches movie by keyword
+	private void searchByKeyword() {
+		System.out.println("\nEnter keyword");
+		String keyword = scan.nextLine();
+		ArrayList<Movie> list = movies.searchByKeyword(keyword);
+		if(list.isEmpty()) {
+			System.out.println("No results found");
+			return;
+		}
+		for(Movie m : list) {
+			System.out.println(m);
 		}
 	}
 	
@@ -147,6 +168,7 @@ public class UserInterface {
 	private void saveAndExit() throws Exception {
 		movies.saveToFile();
 		System.out.println("Saved succesfully");
+		System.exit(0);
 	}
 	
 }

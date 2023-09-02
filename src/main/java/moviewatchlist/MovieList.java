@@ -32,6 +32,14 @@ public class MovieList {
 		return movies;
 	}
 	
+	public ArrayList<Movie> searchByKeyword(String keyword) {
+		ArrayList<Movie> out = new ArrayList<>();
+		for(Movie movie : movies) {
+			if(movie.getTitle().toLowerCase().contains(keyword.toLowerCase())) out.add(movie);
+		}
+		return out;
+	}
+	
 	//Modifiers
 	public void add(Movie movie) {
 		movies.add(movie);
@@ -104,5 +112,7 @@ public class MovieList {
 		writer.close();
 		
 	}
+	
+	
 	
 }
