@@ -236,13 +236,38 @@ public class UserInterface {
 	
 	//prompts user for title and removes given title
 	private void removeMovie() {
+		//get title
 		System.out.println("Enter title to remove");
 		String in = scan.nextLine();
+		//if title match found, remove
 		if(movies.remove(in)) {
 			System.out.println(in + " succesfully removed");
 			return;
 		}
-		System.out.println(in + " not found");
+		//if no exact match, get list by searching by keyword
+		ArrayList<Movie> results = movies.searchByKeyword(in);
+		//if no results return
+		if(results.isEmpty()) {
+			System.out.println(in + " not found");
+			return;
+		}
+		//print results
+		int index = 1;
+		for(Movie m: results) {
+			System.out.println("["+ index++ + "] " + m);
+		}
+		//get user selection
+		System.out.println("Select a movie. Enter 0 to return.");
+		String input = scan.nextLine();
+		while(!input.matches("[0-9]+") || Integer.valueOf(input) >= index || Integer.valueOf(input) < 0) {
+			System.out.println("Please enter the number that cooresponds to the movie you would like details for. Enter 0 to return.");
+			input = scan.nextLine();
+		}
+		//remove movie or return if input is 0
+		if(input.equals("0")) return;
+		Movie toRemove = results.get(Integer.valueOf(input)-1);
+		movies.remove(toRemove);
+		System.out.println(toRemove + " removed");
 	}
 	
 	//prints processing statement
