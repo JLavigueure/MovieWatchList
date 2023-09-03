@@ -56,6 +56,7 @@ public class Movie implements Comparable<Movie>{
 	}
 	
 	public String[] getGenres(){
+		if(genres == null) return new String[1];
 		return genres.getArray();
 	}
 	
