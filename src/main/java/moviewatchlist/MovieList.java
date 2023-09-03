@@ -67,8 +67,27 @@ public class MovieList {
 		return out;
 	}
 	
+	public boolean contains(Movie movie) {
+		for(Movie m: movies) 
+			if(m.equals(movie)) return true;
+		return false;
+	}
+	
+	@Override
+	public boolean equals(Object o) {
+		if(o == this) return true;
+		if(!(o instanceof MovieList)) return false;
+		MovieList otherList = (MovieList) o;
+		for(Movie m: movies) 
+			if(!otherList.contains(m)) return false;
+		for(Movie m: otherList.getMovies())
+			if(!this.contains(m)) return false;
+		return true;
+	}
+	
 	//Modifiers
 	public void add(Movie movie) {
+		if(contains(movie)) return;
 		movies.add(movie);
 	}
 	
@@ -82,7 +101,6 @@ public class MovieList {
 		}
 		return false;
 	}
-	
 	
 	//removes movie object
 	public boolean remove(Movie m) {

@@ -249,6 +249,7 @@ public class UserInterface {
 		int index = 1;
 		for(Movie m : results) {
 			System.out.println("["+index+"] " + m);
+			index++;
 		}
 		System.out.println("\nWhich movie would you like to add? Enter 0 if none.");
 		int selected = getIndex(index, false);
