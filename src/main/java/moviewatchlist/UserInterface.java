@@ -207,9 +207,9 @@ public class UserInterface {
 	//prompts user for title and searches for movies via api, then adds selected movie
 	private void query() throws Exception{
 		System.out.println("Enter title");
-		String input = scan.nextLine();
+		String title = scan.nextLine();
 		printProcessing();
-		ArrayList<Movie> results = api.searchByTitle(input);
+		ArrayList<Movie> results = api.searchByTitle(title);
 		if(results.isEmpty()) {
 			System.out.println("No results found");
 			return;
@@ -219,19 +219,45 @@ public class UserInterface {
 		for(Movie m:results) {
 			System.out.println("["+index++ + "] " + m);
 		}
-		System.out.println("\nWhich movie would you like to add? Enter 0 if none.");
-		System.out.print("Index: ");
-		input = scan.nextLine();
-		while(!input.matches("[0-9]+") || Integer.valueOf(input) < 0 || Integer.valueOf(input) > index){
-			System.out.println("Index does not exist");
-			System.out.println("Index: ");
-			input = scan.nextLine();
+		System.out.println("\nWhich movie would you like to add? Enter 0 if none. Enter -1 to filter by year.");
+
+		int input = getIndex(index, true);
+		if(input == 0) return;
+		if(input == -1) {
+			queryByYear(title);
+			return;
 		}
-		if(input.equals("0")) return;
-		Movie selectedMovie = results.get(Integer.valueOf(input)-1);
+		Movie selectedMovie = results.get(input-1);
 		printProcessing();
 		movies.add(api.getFullInfo(selectedMovie));
 		System.out.println(selectedMovie + " added to list");
+	}
+	
+	private void queryByYear(String title) throws Exception {
+		System.out.println("What year was the movie released?");
+		String input = scan.nextLine();
+		while(!input.matches("[1-2][0-9][0-9][0-9]") && !input.equals("exit")) {
+			System.out.println("Please enter a valid year or exit to return");
+			input = scan.nextLine();
+		}
+		if(input.equals("exit")) return;
+		printProcessing();
+		ArrayList<Movie> results = api.searchByTitleAndYear(title, Integer.valueOf(input));
+		if(results.isEmpty()) {
+			System.out.println("No results found");
+		}
+		int index = 1;
+		for(Movie m : results) {
+			System.out.println("["+index+"] " + m);
+		}
+		System.out.println("\nWhich movie would you like to add? Enter 0 if none.");
+		int selected = getIndex(index, false);
+		if(selected == 0) return;
+		Movie selectedMovie = results.get(selected-1);
+		printProcessing();
+		movies.add(api.getFullInfo(selectedMovie));
+		System.out.println(selectedMovie + " added to list");
+		
 	}
 	
 	//prompts user for title and removes given title
@@ -280,6 +306,26 @@ public class UserInterface {
 		movies.saveToFile();
 		System.out.println("Saved succesfully");
 		System.exit(0);
+	}
+	
+	//takes a max index(qty) and asks user to select a index between 0 to qty. If allowNegative is true, allows -1 as valid return
+	private int getIndex(int qty, Boolean allowNegative) {
+		System.out.print("Index: ");
+		String input = scan.nextLine();
+		if(allowNegative) {
+			while(!input.matches("-*[0-9]+") || Integer.valueOf(input) < -1 || Integer.valueOf(input) > qty){
+				System.out.println("Index does not exist");
+				System.out.println("Index: ");
+				input = scan.nextLine();
+			}
+		}else {
+			while(!input.matches("[0-9]+") || Integer.valueOf(input) < 0 || Integer.valueOf(input) > qty){
+				System.out.println("Index does not exist");
+				System.out.println("Index: ");
+				input = scan.nextLine();
+			}
+		}
+		return Integer.valueOf(input);
 	}
 	
 }

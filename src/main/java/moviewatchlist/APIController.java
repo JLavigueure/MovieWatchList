@@ -50,6 +50,19 @@ public class APIController {
 		JsonArray results = (JsonArray) getResults(request);
 		return parseResults(results);
 	}
+
+	public ArrayList<Movie> searchByTitleAndYear(String title, int year) throws Exception{
+		//format title 
+		title = formatTitle(title);
+		//build API url
+		String url = key.getUrl() + APITags.TITLES.tag + APITags.SEARCH.tag + APITags.TITLE.tag +
+				title +"?exact=false&year=" + year + "&sort=year.decr&titleType=movie";
+		//build HttpRequest
+		HttpRequest request = buildRequest(url);
+		//Send request and parse results
+		JsonArray results = (JsonArray) getResults(request);
+		return parseResults(results);
+	}
 	
 	//Searches by movie ID string and returns a movie with complete fields
 	public Movie getFullInfo(String id) throws Exception{
