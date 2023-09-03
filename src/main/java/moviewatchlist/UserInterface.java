@@ -125,39 +125,36 @@ public class UserInterface {
 		for(Movie m:movies.getMovies()) {
 			System.out.println(m);
 		}
-		System.out.println("\nPress enter to return to main menu. Enter 1 to sort list");
-		String in = scan.nextLine();
-		while(!in.matches("1?")) {
-			System.out.println("Command not recognized");
-			return;
-		}
-		if(in.equals("")) return;
-		System.out.println("[1] Sort by title\n" 
+		System.out.println("\nPress enter to return to main menu\n"
+				+ "[1] Sort by title\n" 
 				+ "[2] Sort by year\n"
 				+ "[3] Sort by rating\n"
 				+ "[4] Sort by runtime");
 		
-		in = scan.nextLine();
-		while(!in.matches("[1-4]")) {
+		String in = scan.nextLine();
+		while(!in.matches("[1-4]") && !in.equals("")) {
 			System.out.println("Command not recognized, please try again");
 			in = scan.next();
 		}
+		if(in.equals("")) return;
 		switch(Integer.valueOf(in)) {
 		case 0:
 			return;
 		case 1:
+			System.out.println("\nA to Z\n------");
 			movies.sort();
 			break;
 		case 2:
+			System.out.println("\nNewest to oldest\n----------------");
 			movies.sortByYear();
 			break;
 		case 3:
 			movies.sortByRating();
-			System.out.println("Highest rated to lowest rated\n------------------------------");
+			System.out.println("\nHighest rated to lowest rated\n------------------------------");
 			break;
 		case 4:
 			movies.sortByRuntime();
-			System.out.println("Longest to shortest\n-------------------");
+			System.out.println("\nLongest to shortest\n-------------------");
 			break;
 		}
 		printMovies();
