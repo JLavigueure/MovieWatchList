@@ -1,6 +1,6 @@
 package moviewatchlist;
 
-public class Movie {
+public class Movie implements Comparable<Movie>{
 	private String id;
 	private String title;
 	private int year;
@@ -103,6 +103,10 @@ public class Movie {
 		return this.id.equals(other.id) &&
 				this.title.equals(other.title) &&
 				this.year == other.year;
+	}
+	
+	public int compareTo(Movie movie) {
+		return this.title.compareTo(movie.getTitle());
 	}
 	
 	//Modifiers

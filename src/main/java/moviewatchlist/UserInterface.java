@@ -125,6 +125,42 @@ public class UserInterface {
 		for(Movie m:movies.getMovies()) {
 			System.out.println(m);
 		}
+		System.out.println("\nPress enter to return to main menu. Enter 1 to sort list");
+		String in = scan.nextLine();
+		while(!in.matches("1?")) {
+			System.out.println("Command not recognized");
+			return;
+		}
+		if(in.equals("")) return;
+		System.out.println("[1] Sort by title\n" 
+				+ "[2] Sort by year\n"
+				+ "[3] Sort by rating\n"
+				+ "[4] Sort by runtime");
+		
+		in = scan.nextLine();
+		while(!in.matches("[1-4]")) {
+			System.out.println("Command not recognized, please try again");
+			in = scan.next();
+		}
+		switch(Integer.valueOf(in)) {
+		case 0:
+			return;
+		case 1:
+			movies.sort();
+			break;
+		case 2:
+			movies.sortByYear();
+			break;
+		case 3:
+			movies.sortByRating();
+			System.out.println("Highest rated to lowest rated\n------------------------------");
+			break;
+		case 4:
+			movies.sortByRuntime();
+			System.out.println("Longest to shortest\n-------------------");
+			break;
+		}
+		printMovies();
 	}
 	
 	//searches list by keyword
@@ -172,8 +208,14 @@ public class UserInterface {
 	
 	//get full movie details
 	private void getMovieInfo() {
+		//print options
+		movies.sort();
+		for(Movie m: movies.getMovies()) {
+			System.out.println(m);
+		}
+		
 		//get title
-		System.out.println("Enter movie title");
+		System.out.println("\nEnter movie title");
 		String title = scan.nextLine();
 		Movie movie = movies.getMovie(title);
 		//if match found, print result
@@ -304,6 +346,7 @@ public class UserInterface {
 	
 	//saves list and exits program
 	private void saveAndExit() throws Exception {
+		movies.sort();
 		movies.saveToFile();
 		System.out.println("Saved succesfully");
 		System.exit(0);

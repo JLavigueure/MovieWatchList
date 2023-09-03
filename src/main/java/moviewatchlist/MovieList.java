@@ -2,14 +2,11 @@ package moviewatchlist;
 
 import java.io.File;
 import java.io.FileWriter;
-import java.io.InputStream;
-import java.io.FileInputStream;
-import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.swing.filechooser.FileSystemView;
@@ -85,6 +82,7 @@ public class MovieList {
 		return true;
 	}
 	
+
 	//Modifiers
 	public void add(Movie movie) {
 		if(contains(movie)) return;
@@ -106,6 +104,27 @@ public class MovieList {
 	public boolean remove(Movie m) {
 		return movies.remove(m);
 	}
+	
+	public void sort() {
+		Collections.sort(movies);
+	}
+	
+	public void sortByTitle() {
+		sort();
+	}
+	
+	public void sortByYear() {
+		movies.sort(new MovieComparatorByYear());
+	}
+	
+	public void sortByRating() {
+		movies.sort(new MovieComparatorByRating());
+	}
+	
+	public void sortByRuntime() {
+		movies.sort(new MovieComparatorByRuntime());
+	}
+	
 	
 	//Read and write to file
 	
