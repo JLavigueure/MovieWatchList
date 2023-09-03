@@ -33,7 +33,7 @@ public class UserInterface {
 	
 	//prints intro message
 	public void printIntro() {
-		System.out.println("Welcome to MovieWatchList, your rainy day itinerary\n");
+		System.out.println("\nWelcome to MovieWatchList, your rainy day itinerary\n");
 	}
 	
 	//checks if previous data exists, and asks user if they would like to load if exists
