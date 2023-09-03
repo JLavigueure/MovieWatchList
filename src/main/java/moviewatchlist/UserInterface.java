@@ -26,8 +26,7 @@ public class UserInterface {
 		}
 		
 		}catch(Exception e) {
-			System.out.println("Fatal error\n" + e.getMessage() + "\n" + e.getStackTrace() + "\n" + e.getLocalizedMessage());
-			System.exit(1);
+			System.out.println(e);
 		}
 	}
 	
@@ -63,14 +62,15 @@ public class UserInterface {
 		cmds.append("[3] Get movie info\n");
 		cmds.append("[4] Add Movie\n");
 		cmds.append("[5] Remove movie\n");
-		cmds.append("[6] Save and exit\n");
+		cmds.append("[6] Get recommendation\n");
+		cmds.append("[7] Save and exit\n");
 		System.out.println(cmds);
 	}
 	
 	//takes user input and processes accordingly
 	private void cmdRouter(String input) throws Exception{
 		if(input.equals("")) return;
-		if(!input.matches("[1-6]")) {
+		if(!input.matches("[1-7]")) {
 			System.out.println("Command not recognized.");
 			return;
 		}
@@ -107,6 +107,9 @@ public class UserInterface {
 				removeMovie();
 				break;	
 			case 6:
+				queryRecommendation();
+				break;
+			case 7:
 				saveAndExit();	
 		}
 	}
@@ -247,6 +250,7 @@ public class UserInterface {
 	private void query() throws Exception{
 		System.out.println("Enter title");
 		String title = scan.nextLine();
+		if(title.equals("")) return;
 		printProcessing();
 		ArrayList<Movie> results = api.searchByTitle(title);
 		if(results.isEmpty()) {
@@ -298,6 +302,18 @@ public class UserInterface {
 		movies.add(api.getFullInfo(selectedMovie));
 		System.out.println(selectedMovie + " added to list");
 		
+	}
+	
+	private void queryRecommendation() throws Exception{
+		printProcessing();
+		Movie recommended = api.getRecommendation(movies);
+		System.out.println(recommended.getFullInfo());
+		System.out.println("Enter 1 to add to list.\nPress enter to return.");
+		String in = scan.nextLine();
+		if(in.equals("1")) {
+			movies.add(recommended);
+			System.out.println(recommended + " added to list");
+		}else if(!in.equals("")) System.out.println("Command not recognized");
 	}
 	
 	//prompts user for title and removes given title
