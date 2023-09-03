@@ -144,6 +144,7 @@ public class APIController {
 		parseRatings(result, movie);
 		parseGenres(result, movie);
 		parsePlot(result, movie);
+		parseRuntime(result, movie);
 	}
 	
 	//Adds result data from json object to movie
@@ -175,6 +176,12 @@ public class APIController {
 		if(plotObj.isJsonNull()) return;
 		String plotText = plotObj.get("plainText").getAsString();
 		movie.setPlot(plotText);
+	}
+	
+	private void parseRuntime(JsonObject result, Movie movie) {
+		JsonObject runtimeObj = result.get("runtime").getAsJsonObject(); 
+		if(runtimeObj.isJsonNull()) return;
+		movie.setRuntime(Integer.valueOf(runtimeObj.get("seconds").getAsString()));
 	}
 	
 	//Fixes capitalization and replaces space characters for API use

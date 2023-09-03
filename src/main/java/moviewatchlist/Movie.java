@@ -7,6 +7,7 @@ public class Movie {
 	private MovieRating rating;
 	private Genres genres;
 	private String plot;
+	private int runtime;
 	
 	
 	//Constructors
@@ -16,6 +17,7 @@ public class Movie {
 		this.year = year;
 		this.rating = new MovieRating();
 		plot = "";
+		runtime = 0;
 	}
 
 	//Accessors
@@ -32,6 +34,7 @@ public class Movie {
 		return (toString() + lineBreak
 				+ getGenresToString() + lineBreak
 				+ getRatingToString() + lineBreak
+				+ getRuntimeInMinutes() + " minutes" + lineBreak
 				+ getPlot());
 		
 	}
@@ -73,6 +76,14 @@ public class Movie {
 	
 	public String getPlot() {
 		return plot;
+	}
+	
+	public int getRuntime() {
+		return runtime;
+	}
+	
+	public int getRuntimeInMinutes() {
+		return runtime/60;
 	}
 	
 	@Override
@@ -117,5 +128,9 @@ public class Movie {
 	
 	public void setPlot(String plot) {
 		this.plot = plot;
+	}
+	
+	public void setRuntime(int seconds) {
+		runtime = seconds;
 	}
 }
