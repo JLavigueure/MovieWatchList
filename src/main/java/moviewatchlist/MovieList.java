@@ -3,10 +3,16 @@ package moviewatchlist;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.InputStream;
+import java.io.FileInputStream;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.swing.filechooser.FileSystemView;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -87,17 +93,15 @@ public class MovieList {
 	
 	//Returns true if file is empty.
 	public boolean fileIsEmpty() throws Exception {
-		InputStream in = MovieList.class.getResourceAsStream("/movieList.json");
-		String string = new String(in.readAllBytes(), StandardCharsets.UTF_8);
-		if(string.isBlank()) return true;
+		File file = new File(saveFilePath());
+		if(!file.exists() || file.length() == 0) return true;
 		return false;
 	}
 	
 	//Loads movie list from file
 	public void loadFromFile() throws Exception {
-		InputStream in = MovieList.class.getResourceAsStream("/movieList.json");
-		String string = new String(in.readAllBytes(), StandardCharsets.UTF_8);
-		JsonArray list = (JsonArray) new Gson().fromJson(string, JsonObject.class).get("movies");
+		String data = new String(Files.readAllBytes(Paths.get(saveFilePath())), StandardCharsets.UTF_8);
+		JsonArray list = (JsonArray) new Gson().fromJson(data, JsonObject.class).get("movies");
 		Gson gson = new Gson();
 		for(JsonElement element : list) {
 			JsonObject movieObj = (JsonObject) element;
@@ -139,12 +143,17 @@ public class MovieList {
 		}
 		json.append("]}");
 		//Write string to file
-		URL url = MovieList.class.getResource("/movieList.json");
-		File f = new File(url.toURI());
-		FileWriter writer = new FileWriter(f);
+		File file = new File(saveFilePath());
+		System.out.println(file.getAbsolutePath());
+		file.createNewFile();
+		FileWriter writer = new FileWriter(file);
 		writer.write(json.toString());
 		writer.close();
-		
+	}
+	
+	public String saveFilePath() {
+		return FileSystemView.getFileSystemView().getDefaultDirectory().getPath()
+				+ "/movieList.json";
 	}
 	
 	
