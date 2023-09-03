@@ -7,6 +7,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Random;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -92,12 +93,38 @@ public class APIController {
 		Genres genres = new Genres(); 
 		for(JsonElement element : result) {
 			if(element.isJsonNull()) continue;
-			genres.add(element.getAsString().toLowerCase());
+			genres.add(element.getAsString());
 		}
 		return genres;
 		
 	}
 
+	//Gives a movie recommendation based off other movies on list
+	public Movie getRecommendation(MovieList list) throws Exception{
+		//calculate parameters
+		int startYear = list.getAverageYear() - list.getStandardDeviationOfYear()-5;
+		if(startYear < 0) startYear = 2000;
+		int endYear = list.getAverageYear() + list.getStandardDeviationOfYear()+5;
+		if(endYear < 1950) endYear = java.time.LocalDate.now().getYear();
+		String genre = list.getFavoriteGenre();
+		Random r = new Random();
+		if(genre == "") {
+			String[] genres = getGenres().getArray();
+			genre = genres[r.nextInt(genres.length-1)];
+		}
+		int page = r.nextInt(51);
+		String url = key.getUrl() + APITags.TITLES.tag + "?genre=" + genre + "&startYear=" + startYear
+				+ "&list=most_pop_movies&page=" + page + "&endYear=" + endYear;
+		//build request
+		HttpRequest request = buildRequest(url);
+		//send request and parse results
+		JsonArray result = (JsonArray) getResults(request);
+		ArrayList<Movie> results = parseResults(result);
+		if(results.isEmpty()) return getRecommendation(list);
+		Movie recommended = results.get(r.nextInt(10));
+		return getFullInfo(recommended);
+	}
+	
 	//---Helper Methods---
 	
 	//Takes a url (String) and returns the correct API HttpRequest
@@ -185,6 +212,7 @@ public class APIController {
 	}
 	
 	private void parsePlot(JsonObject result, Movie movie) {
+		if(result.get("plot").isJsonNull()) return;
 		JsonObject plotObj = result.get("plot").getAsJsonObject().get("plotText").getAsJsonObject();
 		if(plotObj.isJsonNull()) return;
 		String plotText = plotObj.get("plainText").getAsString();
@@ -192,6 +220,7 @@ public class APIController {
 	}
 	
 	private void parseRuntime(JsonObject result, Movie movie) {
+		if(result.get("runtime").isJsonNull()) return;
 		JsonObject runtimeObj = result.get("runtime").getAsJsonObject(); 
 		if(runtimeObj.isJsonNull()) return;
 		movie.setRuntime(Integer.valueOf(runtimeObj.get("seconds").getAsString()));
