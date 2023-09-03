@@ -1,3 +1,18 @@
+- changed getGenres to return empty array instead of null if none exist
+- added methods to retrieve users preferences for recomendations
+- added recommendation feature
+- added recommendation feature, fixed null pointer errors
+- updated version to 1.0.0
+- Changed UI text when printing and sorting list
+- added ability to sort list by title, year, rating, runtime
+- disabled adding multiple copies of a movie, fixed index bug filtering by year
+- enabled filtering query results by year
+- added runtime to Movie class
+- Merge branch 'main' of https://github.com/JLavigueure/MovieWatchList
+- added new line printout before intro message
+- added shade plugin to include dependencies in build
+- changed file save location to user documents due to write issues with saving to resources
+- Create CHANGELOG.md
 - removeMovie now returns a list of movies if no exact match found
 - getMovieInfo now returns a list of movies if no exact match found
 - added ability to remove movie from list
