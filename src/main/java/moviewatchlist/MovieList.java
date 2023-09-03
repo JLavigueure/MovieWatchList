@@ -7,7 +7,10 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.lang.Math;
 
 import javax.swing.filechooser.FileSystemView;
 
@@ -82,7 +85,63 @@ public class MovieList {
 		return true;
 	}
 	
+	public String getFavoriteGenre() {
+		if(movies.isEmpty()) return "";
+		Map<String, Integer> map = new HashMap<>();
+		//go through each movie
+		for(Movie m : movies) {
+			//for each genre of each movie increment hashmap value
+			if(m.getGenres() == null) continue;
+			for(String genre: m.getGenres()) {
+				if(!map.containsKey(genre)) map.put(genre, 0);
+				map.put(genre, map.get(genre)+1);
+			}
+		}
+		//find hashmap value with largest value and return key (genre)
+		String favoriteGenre = map.keySet().iterator().next();
+		for(String currentGenre: map.keySet()) {
+			if(map.get(currentGenre) > map.get(favoriteGenre)) favoriteGenre = currentGenre;
+		}
+		return favoriteGenre;
+	}
+	
+	public int getOldestYear() {
+		if(movies.isEmpty()) return 1800;
+		int year = 9999;
+		for(Movie m : movies) {
+			if(m.getYear() < year) year = m.getYear();
+		}
+		return year;
+	}
 
+	public int getNewestYear() {
+		if(movies.isEmpty()) return java.time.LocalDate.now().getYear();
+		int year = 0;
+		for(Movie m: movies) {
+			if(m.getYear() > year) year = m.getYear();
+		}
+		return year;
+	}
+	
+	public int getAverageYear() {
+		if(movies.isEmpty()) return 0;
+		int sum = 0;
+		for(Movie m : movies) 
+			sum += m.getYear();
+		return sum/movies.size();
+	}
+	
+	public int getStandardDeviationOfYear() {
+		if(movies.isEmpty()) return 0;
+		int avg = getAverageYear();
+		int sum = 0;
+		for(Movie m:movies) {
+			int x = (m.getYear()-avg);
+			sum+=x*x;
+		}
+		return (int)Math.sqrt(sum/movies.size());
+	}
+	
 	//Modifiers
 	public void add(Movie movie) {
 		if(contains(movie)) return;
