@@ -167,7 +167,12 @@ public class APIController {
 		String id = result.get("id").getAsString();
 		//get name
 		JsonObject titleText = (JsonObject) result.get("titleText");
-		String name = titleText.get("text").getAsString();
+		String name;
+		if(!titleText.isJsonNull()) {
+			name = titleText.get("text").getAsString();
+		}else{
+			name = "Unknown title";  //no name available
+		}
 		//get year
 		int year;
 		if(!(result.get("releaseYear") instanceof JsonNull)) {
@@ -192,7 +197,7 @@ public class APIController {
 		JsonObject json = (JsonObject) result.get("ratingsSummary");
 		double rating;
 		if(json.get("aggregateRating").isJsonNull()) {
-			rating = 0;
+			rating = 0; //no rating available
 		}else {
 			rating = Double.valueOf(json.get("aggregateRating").toString());
 		}
@@ -203,8 +208,10 @@ public class APIController {
 	//Adds result data from json object to movie
 	private void parseGenres(JsonObject result, Movie movie) {
 		Genres genres = new Genres();
-		
-		JsonArray jsonArray = result.get("genres").getAsJsonObject().get("genres").getAsJsonArray();
+		if(result.get("genres").isJsonNull()) return;
+		JsonObject jsonObj = result.get("genres").getAsJsonObject();
+		if(jsonObj.isJsonNull()) return; //no genres exist
+		JsonArray jsonArray = jsonObj.get("genres").getAsJsonArray();
 		for(JsonElement element : jsonArray) {
 			genres.add(element.getAsJsonObject().get("text").getAsString());
 		}
@@ -212,7 +219,7 @@ public class APIController {
 	}
 	
 	private void parsePlot(JsonObject result, Movie movie) {
-		if(result.get("plot").isJsonNull()) return;
+		if(result.get("plot").isJsonNull()) return; //if no plot exists
 		JsonObject plotObj = result.get("plot").getAsJsonObject().get("plotText").getAsJsonObject();
 		if(plotObj.isJsonNull()) return;
 		String plotText = plotObj.get("plainText").getAsString();
