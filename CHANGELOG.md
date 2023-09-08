@@ -1,3 +1,6 @@
+- add checks for null values when parseing all info, add error 404 if api fails return
+- add check for null values in all api response parse methods
+- Update CHANGELOG.md
 - changed getGenres to return empty array instead of null if none exist
 - added methods to retrieve users preferences for recomendations
 - added recommendation feature
