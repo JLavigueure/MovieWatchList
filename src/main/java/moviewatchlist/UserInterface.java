@@ -128,7 +128,7 @@ public class UserInterface {
 		for(Movie m:movies.getMovies()) {
 			System.out.println(m);
 		}
-		System.out.println("\nPress enter to return to main menu\n"
+		System.out.println("\n[Enter] Return to main menu\n"
 				+ "[1] Sort by title\n" 
 				+ "[2] Sort by year\n"
 				+ "[3] Sort by rating\n"
@@ -215,7 +215,7 @@ public class UserInterface {
 		}
 		
 		//get title
-		System.out.println("\nEnter movie title");
+		System.out.println("\nEnter movie title from list");
 		String title = scan.nextLine();
 		Movie movie = movies.getMovie(title);
 		//if match found, print result
@@ -253,6 +253,10 @@ public class UserInterface {
 		if(title.equals("")) return;
 		printProcessing();
 		ArrayList<Movie> results = api.searchByTitle(title);
+		if(results == null) {
+			System.out.println("Error 404. Check connection and try again");
+			return;
+		}
 		if(results.isEmpty()) {
 			System.out.println("No results found");
 			return;
@@ -262,7 +266,7 @@ public class UserInterface {
 		for(Movie m:results) {
 			System.out.println("["+index++ + "] " + m);
 		}
-		System.out.println("\nWhich movie would you like to add? Enter 0 if none. Enter -1 to filter by year.");
+		System.out.println("\nWhich movie would you like to add?\n0 to return. -1 to filter by year.");
 
 		int input = getIndex(index, true);
 		if(input == 0) return;

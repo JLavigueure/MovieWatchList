@@ -38,7 +38,7 @@ public class APIController {
 	
 	//---Search functions---
 	
-	//Searches by title exactly, returns ArrayList of results
+	//Searches by title exactly, returns ArrayList of results or null if no connection
 	public ArrayList<Movie> searchByTitle(String title) throws Exception{
 		//format title 
 		title = formatTitle(title);
@@ -48,8 +48,11 @@ public class APIController {
 		//build HttpRequest
 		HttpRequest request = buildRequest(url);
 		//Send request and parse results
-		JsonArray results = (JsonArray) getResults(request);
-		return parseResults(results);
+		JsonElement results = getResults(request);
+		if(results == null || results.isJsonNull() || !results.isJsonArray()) {
+			return null;
+		}
+		return parseResults(results.getAsJsonArray());
 	}
 
 	public ArrayList<Movie> searchByTitleAndYear(String title, int year) throws Exception{
@@ -138,11 +141,16 @@ public class APIController {
 	}
 	
 	//Sends HTTP request and returns JsonArray of the APIs results
-	private JsonElement getResults(HttpRequest request) throws Exception{
-		HttpResponse<String> response = 
-				HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
-		JsonObject json = new Gson().fromJson(response.body(), JsonObject.class);
-		return json.get("results");
+	private JsonElement getResults(HttpRequest request){
+		try {
+			HttpResponse<String> response = 
+					HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
+			JsonObject json = new Gson().fromJson(response.body(), JsonObject.class);
+			return json.get("results");
+		}catch(Exception e) {
+			return null;
+		}
+		
 	}
 	
 	//Takes JsonArray of returned values and returns ArrayList of Movie.
@@ -196,7 +204,8 @@ public class APIController {
 	private void parseRatings(JsonObject result, Movie movie) {
 		JsonObject json = (JsonObject) result.get("ratingsSummary");
 		double rating;
-		if(json.get("aggregateRating").isJsonNull()) {
+		if(json.isJsonNull()) return;
+		if(json.isJsonNull() || json.get("aggregateRating").isJsonNull()) {
 			rating = 0; //no rating available
 		}else {
 			rating = Double.valueOf(json.get("aggregateRating").toString());
