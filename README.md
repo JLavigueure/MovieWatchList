@@ -9,9 +9,9 @@
   <h3 align="center">Movie Watchlist</h3>
 
   <p align="center">
-    An awesome way to never forget about all those movies you found interesting.
+    Build your cinema agenda.
     <br />
-    <a href="https://github.com/JLavigueure/MovieWatchList"><strong>Explore the docs »</strong></a>
+    <a href="https://github.com/JLavigueure/MovieWatchList/tree/main/src/main/java/moviewatchlist"><strong>Explore the docs »</strong></a>
     <br />
     <br />
     <a href="https://github.com/JLavigueure/MovieWatchList">View Demo</a>
@@ -30,7 +30,7 @@
   </a>
 </div>
 
-Movie Watchlist is a terminal based program that allows you to query over 9 million titles via API, and save those movies you find interesting for a later time into a NoSQL (Json) database in your documents. In addition, it provides movie reccomendations based off your unique movie list by using details like your favorite genre and age of movie. Build your cinema agenda with Movie Watchlist.
+Movie Watchlist is a terminal based program that allows you to query over 9 million titles via external API (<a href="https://rapidapi.com/SAdrian/api/moviesdatabase/">MoviesDatabase</a>), and save the movies you find interesting for a later time into a local NoSQL (Json) database. In addition, it provides movie recommendations using an algorithm that looks at your unique list and finds popular related titles. 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -40,6 +40,9 @@ Movie Watchlist is a terminal based program that allows you to query over 9 mill
 * ![Apache Maven](https://img.shields.io/badge/Apache%20Maven-C71A36?style=for-the-badge&logo=Apache%20Maven&logoColor=white)
 * <a href="https://github.com/google/gson">Gson</a>
 * <a href="https://github.com/junit-team">JUnit</a>
+
+### Skills
+Object oriented programming(OOP), API interaction, File writing and reading
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -70,6 +73,32 @@ Movie Watchlist is a terminal based program that allows you to query over 9 mill
    ```sh
    java -jar target/moviewatchlist-1.0.0.jar
    ```
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+<!-- USAGE EXAMPLES -->
+## Usage
+<div align="center">
+  <a href="https://github.com/JLavigueure/MovieWatchList">
+    <img src="images/readme_usage.png" alt="Usage" width="800">
+  </a>
+</div>
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+<!-- CONTACT -->
+## Contact
+
+* Jordan Lavigueure
+* lav.jordan@live.com
+* <a href="https://www.linkedin.com/in/jordanlavigueure">
+  <img src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn">
+  </a>
+* <a href="https://github.com/JLavigueure">
+  <img src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white" alt="GitHub repo">
+  </a>
+
+
+
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
